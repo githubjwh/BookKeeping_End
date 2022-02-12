@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.Service.TokenService;
 import com.example.demo.Service.UserService;
 import com.example.demo.entity.Result;
 import com.example.demo.entity.User;
@@ -41,5 +42,17 @@ public class UserController {
     	String username = (String) data.get("username");
     	String password = (String) data.get("password");
         return userService.login(username, password);
+    }
+    
+    /**
+     * 更改密码
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
+    public Result changePassword(@RequestBody JSONObject data){
+    	String username = (String) data.get("username");
+    	String password = (String) data.get("password");
+        return userService.updatePassword(username, password);
     }
 }
