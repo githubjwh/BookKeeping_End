@@ -4,7 +4,7 @@ package com.example.demo.entity;
  * 向前端返回信息封装
  * @param <T> 可变类型
  */
-public class Result<T> {
+public class Result {
     /**
      * 返回信息
      */
@@ -18,7 +18,7 @@ public class Result<T> {
     /**
      * 具体返回的数据
      */
-    private T detail;
+    private String detail;
 
     public String getMsg() {
         return msg;
@@ -36,11 +36,11 @@ public class Result<T> {
         this.success = success;
     }
 
-    public T getDetail() {
+    public String getDetail() {
         return detail;
     }
 
-    public void setDetail(T detail) {
+    public void setDetail(String detail) {
         this.detail = detail;
     }
 }
