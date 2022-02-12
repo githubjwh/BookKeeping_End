@@ -12,6 +12,11 @@ public class TokenService {
 	private static final String token_secret="q3nr98of";
 	private static final long exist_time = 30*60*1000;
 	
+	/**
+	 * 生成token
+	 * @param username
+	 * @return
+	 */
 	public static String createToken(String username){
         String token = null;
         try {
@@ -27,6 +32,11 @@ public class TokenService {
         return token;
     }
 	
+	/**
+	 * 验证token
+	 * @param token 
+	 * @return token正确与否
+	 */
 	public static boolean verify(String token) {
 		try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(token_secret)).withIssuer("system").build();
