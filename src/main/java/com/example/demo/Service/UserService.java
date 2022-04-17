@@ -1,5 +1,9 @@
 package com.example.demo.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,13 +19,16 @@ import com.example.demo.entity.User;
 public class UserService {
 	@Autowired
 	private UserMapper userMapper;
+	@Autowired
+	private RedisService redisService;
 	
 	/**
      * 登录
+	 * @param httpServletResponse 
      * @param username用户名， password密码
      * @return Result
      */
-	 public Result login(String username, String password) {
+	 public Result login(String username, String password, HttpServletResponse httpServletResponse) {
 	        Result result = new Result();
 	        result.setSuccess(false);
 	        result.setDetail(null);
@@ -32,6 +39,10 @@ public class UserService {
 	            }else{
 	            	String tokenString = TokenService.createToken(username);
 	            	System.out.println("token" + tokenString);
+	            	redisService.set(tokenString, userId.toString());
+	            	Cookie cookie = new Cookie("token", tokenString);
+	            	cookie.setPath("/");
+	                httpServletResponse.addCookie(cookie); 
 	                result.setMsg("登录成功");
 	                result.setSuccess(true);
 	                JSONObject token_json = new JSONObject();
@@ -73,7 +84,7 @@ public class UserService {
 	 
 	 /**
 	  * 更改密码
-	  * @param user
+	  * @param username
 	  * @param password
 	  * @return
 	  */
@@ -94,5 +105,43 @@ public class UserService {
 	        return result;
 	 }
 	 
-	 
+	 /**
+	  * 更改云盘账号
+	  * @param diskName
+	  * @param diskPassword
+	 * @param httpServletRequest 
+	  * @return
+	  */
+	 public Result updateDiskAccount(String diskName, String diskPassword, HttpServletRequest httpServletRequest) {
+		 Result result = new Result();
+	        result.setSuccess(false);
+	        result.setDetail(null);
+	        try {
+	        	String tokenString = null;
+	        	Cookie[] cookies = httpServletRequest.getCookies();
+	        	if(cookies != null) {
+	        		for(Cookie cookie : cookies) {
+	        			if(cookie.getName().equals("token")) {
+	        				tokenString = cookie.getValue();
+	        				break;
+	        			}
+	        		}
+	        	}
+	        	if(tokenString != null) {
+	        		Integer userId = Integer.valueOf(redisService.get(tokenString));
+	        		userMapper.updateDiskName(diskName, userId);
+	        		userMapper.updateDiskPassword(diskPassword, userId);
+	        		result.setMsg("云盘更改成功");
+		            result.setSuccess(true);
+	        	}
+	        	else {
+	        		result.setMsg("云盘更改失败");
+		            result.setSuccess(false);
+	        	}
+	        } catch (Exception e) {
+	            result.setMsg(e.getMessage());
+	            e.printStackTrace();
+	        }
+	        return result;
+	 }
 }

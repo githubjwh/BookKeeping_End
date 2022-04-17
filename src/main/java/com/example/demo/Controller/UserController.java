@@ -1,7 +1,11 @@
 package com.example.demo.Controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +38,10 @@ public class UserController {
      * @return Result
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Result login(@RequestBody JSONObject data){
+    public Result login(@RequestBody JSONObject data, HttpServletResponse httpServletResponse){
     	String username = (String) data.get("username");
     	String password = (String) data.get("password");
-        return userService.login(username, password);
+        return userService.login(username, password, httpServletResponse);
     }
     
     /**
@@ -51,4 +55,17 @@ public class UserController {
     	String password = (String) data.get("password");
         return userService.updatePassword(username, password);
     }
+    
+    /**
+     * 更改云盘账号
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/updateDiskAccount", method = RequestMethod.POST)
+    public Result changeDiskAccount(@RequestBody JSONObject data, HttpServletRequest httpServletRequest){
+    	String diskName = (String) data.get("diskName");
+    	String diskPassword = (String) data.get("password");
+        return userService.updateDiskAccount(diskName, diskPassword, httpServletRequest);
+    }
+    
 }
