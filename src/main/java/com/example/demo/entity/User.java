@@ -1,12 +1,33 @@
 package com.example.demo.entity;
 
 public class User {
+	
 	private Integer id;
 	private String username;
 	private String password;
 	private String disk_name;
 	private String disk_password;
 	
+	/**
+	 * 未提供云盘的用户信息创建
+	 * @param id
+	 * @param username
+	 * @param password
+	 */
+	public User(Integer id, String username, String password) {
+		this.id = id;
+		this.setUsername(username);
+		this.password = password;
+	}
+	
+	/**
+	 * 提供云盘的用户信息创建
+	 * @param id
+	 * @param username
+	 * @param password
+	 * @param disk_name
+	 * @param disk_password
+	 */
 	public User(Integer id, String username, String password, String disk_name, String disk_password) {
 		this.id = id;
 		this.setUsername(username);
