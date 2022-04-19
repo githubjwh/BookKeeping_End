@@ -80,4 +80,12 @@ public interface UserMapper {
      */
     @Update("update user set diskpassword=#{disk_password} where id=#{id}")
     void updateDiskPassword(@Param("disk_password") String disk_password, @Param("id") Integer id);
+
+    /**
+     * 获取用户总数
+     * @param disk_password
+     * @param id
+     */
+    @Select(value = "select count(*) from user u")
+	int getUserCount();
 }

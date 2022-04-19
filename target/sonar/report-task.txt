@@ -2,5 +2,5 @@ projectKey=bookkeeping_end
 serverUrl=http://localhost:9000
 serverVersion=9.3.0.51899
 dashboardUrl=http://localhost:9000/dashboard?id=bookkeeping_end
-ceTaskId=AX7twannimJZ8hrIcZeN
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AX7twannimJZ8hrIcZeN
+ceTaskId=AYBBVNk2nSVZ_rYc7b01
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYBBVNk2nSVZ_rYc7b01

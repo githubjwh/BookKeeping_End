@@ -67,5 +67,4 @@ public class UserController {
     	String diskPassword = (String) data.get("password");
         return userService.updateDiskAccount(diskName, diskPassword, httpServletRequest);
     }
-    
 }
